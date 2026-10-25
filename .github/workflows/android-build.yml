@@ -34,8 +34,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # The runner already has the Android SDK; just accept its licenses so Gradle can
+      # download any missing build tools.
+      - name: Accept Android SDK licenses
+        shell: bash
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 
       - name: Make gradlew executable
         run: chmod +x gradlew
